@@ -2,19 +2,29 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 
-# --- Pie Chart for Satisfaction Level by Parental Involvement ---
+# --- Parental Involvement Pie Chart with Live Input ---
 st.title('Parental Involvement and Satisfaction Levels')
 
-# Data for Satisfaction Level by Parental Involvement
-labels = ['Highly Involved', 'Moderately Involved', 'Not Involved']
-sizes = [18, 22, 10]  # Number of respondents in each category
-satisfaction_scores = [4.5, 3.9, 3.2]  # Average satisfaction scores
+# Live input for respondents in each category
+highly_involved = st.slider('Number of Highly Involved Respondents', 0, 50, 18)
+moderately_involved = st.slider('Number of Moderately Involved Respondents', 0, 50, 22)
+not_involved = st.slider('Number of Not Involved Respondents', 0, 50, 10)
 
-# Creating Pie chart with shadow effect for 3D-like appearance
+# Satisfaction Scores can be adjusted as well
+highly_involved_satisfaction = st.slider('Satisfaction Score for Highly Involved', 1.0, 5.0, 4.5, 0.1)
+moderately_involved_satisfaction = st.slider('Satisfaction Score for Moderately Involved', 1.0, 5.0, 3.9, 0.1)
+not_involved_satisfaction = st.slider('Satisfaction Score for Not Involved', 1.0, 5.0, 3.2, 0.1)
+
+# Data for Pie chart
+labels = ['Highly Involved', 'Moderately Involved', 'Not Involved']
+sizes = [highly_involved, moderately_involved, not_involved]
+satisfaction_scores = [highly_involved_satisfaction, moderately_involved_satisfaction, not_involved_satisfaction]
+
+# Creating Pie chart with shadow effect
 fig1, ax1 = plt.subplots(figsize=(7, 7))
 ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=['#ff9999','#66b3ff','#99ff99'], shadow=True)
 ax1.set_title('Parental Involvement and Satisfaction Levels')
-ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+ax1.axis('equal')
 
 # Display Pie chart
 st.pyplot(fig1)
@@ -22,9 +32,10 @@ st.pyplot(fig1)
 # --- 3D Bar Chart for Satisfaction Level by School Type ---
 st.title('Satisfaction Level by Type of School')
 
-# Data for Satisfaction Level by School Type
+# Live input for school types and satisfaction scores
 school_types = ['Private', 'Public']
-satisfaction_scores = [4.3, 3.7]
+private_satisfaction = st.slider('Satisfaction Score for Private School', 1.0, 5.0, 4.3, 0.1)
+public_satisfaction = st.slider('Satisfaction Score for Public School', 1.0, 5.0, 3.7, 0.1)
 
 # Create 3D figure
 fig2 = plt.figure()
@@ -34,7 +45,7 @@ ax2 = fig2.add_subplot(111, projection='3d')
 x_pos = np.arange(len(school_types))
 
 # Create bars
-ax2.bar(x_pos, satisfaction_scores, zdir='y', color=['blue', 'green'])
+ax2.bar(x_pos, [private_satisfaction, public_satisfaction], zdir='y', color=['blue', 'green'])
 
 # Labeling the axes
 ax2.set_xlabel('School Type')
